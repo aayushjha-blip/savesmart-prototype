@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SaveSmart – Build Your Future</title>
+  <title>Sapne – Build Your Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
   <style>
@@ -207,6 +207,9 @@
     .opt .chk{margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;transition:all .2s;flex-shrink:0;}
     .opt.on .chk{background:var(--g);border-color:var(--g);color:#fff;}
 
+    /* ── AUTOPAY OPTIONS ── */
+    .opt.flex{flex-direction:column;align-items:flex-start;}
+
     /* ── GOAL TILES ── */
     .gtiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
     .gtile{border:1.5px solid var(--bdr);border-radius:16px;padding:16px 8px;text-align:center;cursor:pointer;transition:all .2s;background:var(--wh);}
@@ -353,7 +356,7 @@
   <!-- Hero -->
   <div class="hero">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;">
-      <div style="font-size:20px;font-weight:900;">🌱 SaveSmart</div>
+      <div style="font-size:20px;font-weight:900;">🌱 Sapne</div>
       <button class="btn out sm" style="width:auto;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4);color:#fff;" onclick="go('sc-login')">Login</button>
     </div>
     <!-- Animated seedling growth sequence -->
@@ -383,6 +386,29 @@
       Start Saving 🚀
     </button>
     <p style="font-size:12px;opacity:.6;margin-top:12px;">Free · No lock-in · 2 minutes to set up</p>
+  </div>
+
+  <!-- Motivational Quotes Strip -->
+  <div style="background:linear-gradient(135deg,#F0FFF4,#E8F8F5);padding:24px 20px;overflow-x:auto;white-space:nowrap;scroll-behavior:smooth;">
+    <div style="display:inline-flex;gap:16px;">
+      <div style="background:rgba(46,204,113,.1);border-left:3px solid #2ECC71;border-radius:8px;padding:16px;min-width:280px;white-space:normal;">
+        <div style="font-size:14px;font-weight:700;color:#1A1A2E;line-height:1.5;">छोटी बचत, बड़े सपने।</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:4px;font-style:italic;">Small savings, big dreams.</div>
+      </div>
+      <div style="background:rgba(46,204,113,.1);border-left:3px solid #2ECC71;border-radius:8px;padding:16px;min-width:280px;white-space:normal;">
+        <div style="font-size:14px;font-weight:700;color:#1A1A2E;line-height:1.5;">The best time to start saving was yesterday. The next best time is today.</div>
+      </div>
+      <div style="background:rgba(46,204,113,.1);border-left:3px solid #2ECC71;border-radius:8px;padding:16px;min-width:280px;white-space:normal;">
+        <div style="font-size:14px;font-weight:700;color:#1A1A2E;line-height:1.5;">₹50 today is ₹19 lakh in 30 years. Start now.</div>
+      </div>
+      <div style="background:rgba(46,204,113,.1);border-left:3px solid #2ECC71;border-radius:8px;padding:16px;min-width:280px;white-space:normal;">
+        <div style="font-size:14px;font-weight:700;color:#1A1A2E;line-height:1.5;">Financial freedom begins with one small habit.</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:4px;">— Warren Buffett</div>
+      </div>
+      <div style="background:rgba(46,204,113,.1);border-left:3px solid #2ECC71;border-radius:8px;padding:16px;min-width:280px;white-space:normal;">
+        <div style="font-size:14px;font-weight:700;color:#1A1A2E;line-height:1.5;">Don't wait to be rich to start saving. Save to become rich.</div>
+      </div>
+    </div>
   </div>
 
   <!-- How it Works -->
@@ -434,6 +460,7 @@
         <tr><td style="padding:10px 0;font-size:13px;color:var(--mid);">1 year →</td><td style="text-align:right;font-size:16px;font-weight:800;color:var(--gd);" id="lc-1y">₹18,250</td></tr>
         <tr style="border-top:1px dashed var(--gm);"><td style="padding:10px 0;font-size:13px;color:var(--mid);">3 years →</td><td style="text-align:right;font-size:16px;font-weight:800;color:var(--gd);" id="lc-3y">₹54,750</td></tr>
         <tr style="border-top:1px dashed var(--gm);"><td style="padding:10px 0;font-size:13px;color:var(--mid);">5 years →</td><td style="text-align:right;font-size:20px;font-weight:900;color:var(--gd);" id="lc-5y">₹91,250</td></tr>
+        <tr style="border-top:2px solid var(--g);"><td style="padding:10px 0;font-size:14px;font-weight:700;color:var(--ink);">30 years →</td><td style="text-align:right;font-size:22px;font-weight:900;color:var(--gd);" id="lc-30y">₹19,03,500</td></tr>
       </table>
       <button class="btn g" onclick="go('sc-login')" style="margin-top:18px;">Start your savings plan →</button>
     </div>
@@ -556,6 +583,27 @@
         <div class="chip" onclick="setOb2(300)">₹300</div>
       </div>
     </div>
+    <div style="background:var(--gl);border:1.5px solid var(--gm);border-radius:14px;padding:14px;margin-bottom:16px;text-align:center;">
+      <div style="font-size:13px;font-weight:700;color:var(--gd);margin-bottom:4px;">✨ Inspiration</div>
+      <div style="font-size:13px;color:#1A1A2E;line-height:1.6;font-style:italic;" id="ob2-quote">छोटी बचत, बड़े सपने।</div>
+    </div>
+    <div style="background:linear-gradient(135deg,var(--gd),var(--g));border-radius:16px;padding:18px;margin-bottom:16px;color:#fff;text-align:center;">
+      <div style="font-size:12px;opacity:.8;margin-bottom:6px;">With 7.2% FD interest, this becomes</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+        <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px 6px;">
+          <div style="font-size:16px;font-weight:900;" id="vp-1y">₹18,659</div>
+          <div style="font-size:10px;opacity:.8;">1 year</div>
+        </div>
+        <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px 6px;">
+          <div style="font-size:16px;font-weight:900;" id="vp-5y">₹1,07,250</div>
+          <div style="font-size:10px;opacity:.8;">5 years</div>
+        </div>
+        <div style="background:rgba(255,255,255,.25);border-radius:10px;padding:10px 6px;border:1px solid rgba(255,255,255,.3);">
+          <div style="font-size:16px;font-weight:900;" id="vp-30y">₹19L+</div>
+          <div style="font-size:10px;opacity:.9;font-weight:700;">30 years 🚀</div>
+        </div>
+      </div>
+    </div>
     <div style="background:var(--yl);border:1.5px solid var(--y);border-radius:14px;padding:14px;margin-bottom:24px;">
       <div style="font-size:13px;font-weight:700;color:#7D6608;margin-bottom:4px;">💡 Did you know?</div>
       <div style="font-size:12px;color:#92400E;line-height:1.6;" id="ob2-tip">Even ₹20 a day creates a strong future. ₹50/day = <strong>₹18,250</strong> in just one year!</div>
@@ -623,7 +671,61 @@
       <div style="font-size:12px;color:#92400E;margin-top:4px;">Small daily habits create big life changes.</div>
     </div>
 
-    <button class="btn g" onclick="go('sc-payment')" style="font-size:16px;padding:18px;border-radius:16px;font-weight:900;">Start My Plan 🚀</button>
+    <button class="btn g" onclick="go('sc-autopay')" style="font-size:16px;padding:18px;border-radius:16px;font-weight:900;">Start My Plan 🚀</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     AUTOPAY AMOUNT CHOICE
+═══════════════════════════════════════ -->
+<div id="sc-autopay" class="sc">
+  <div class="hdr"><div class="hdr-back" onclick="go('sc-plan')">←</div><div style="font-weight:700;">Set Your Amount</div><div></div></div>
+  <div class="wrap fu">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:40px;margin-bottom:10px;">⚡</div>
+      <h2>How much do you want<br>to save daily?</h2>
+      <p class="muted">Saving more = reaching your dream faster</p>
+    </div>
+
+    <!-- Minimum plan card -->
+    <div style="background:var(--gl);border:1.5px solid var(--gm);border-radius:16px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+      <div style="font-size:24px;">📋</div>
+      <div>
+        <div style="font-size:12px;color:var(--mid);font-weight:600;">YOUR MINIMUM PLAN</div>
+        <div style="font-size:15px;font-weight:800;">₹<span id="ap-min">70</span>/day → Goal in <span id="ap-months">12 months</span></div>
+      </div>
+    </div>
+
+    <!-- Boost options -->
+    <div class="lbl" style="margin-bottom:10px;">💪 Save more, get there faster</div>
+    <div id="ap-options" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;"></div>
+
+    <!-- Custom amount -->
+    <div class="card" style="margin-bottom:20px;">
+      <div style="font-size:14px;font-weight:700;margin-bottom:12px;">Or set your own amount</div>
+      <div class="pfx-wrap">
+        <span class="pfx">₹</span>
+        <input class="inp" type="number" id="ap-custom" placeholder="Enter daily amount" oninput="updCustomAP()" />
+      </div>
+      <div style="font-size:12px;color:var(--mid);margin-top:8px;" id="ap-custom-eta"></div>
+    </div>
+
+    <!-- 30 year projection -->
+    <div class="card green" style="margin-bottom:20px;text-align:center;">
+      <div style="font-size:12px;opacity:.8;margin-bottom:8px;">With 7.2% compounding, your chosen amount becomes</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:rgba(255,255,255,.15);border-radius:12px;padding:12px;">
+          <div style="font-size:20px;font-weight:900;" id="ap-proj-5">₹—</div>
+          <div style="font-size:11px;opacity:.8;">in 5 years</div>
+        </div>
+        <div style="background:rgba(255,255,255,.25);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.3);">
+          <div style="font-size:20px;font-weight:900;" id="ap-proj-30">₹—</div>
+          <div style="font-size:11px;opacity:.9;font-weight:700;">in 30 years 🚀</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn g" id="ap-cta" onclick="confirmAutopay()" style="font-size:16px;padding:18px;">Continue with ₹<span id="ap-chosen-lbl">70</span>/day →</button>
   </div>
 </div>
 
@@ -935,11 +1037,23 @@
 
 <script>
 /* ═══════════════════════════════════════
+   COMPOUND INTEREST CALCULATOR
+═══════════════════════════════════════ */
+// Future Value of recurring deposit at 7.2% annual compounding
+// pmt = monthly deposit, years = number of years
+function fvRD(pmt, years) {
+  const r = 0.072 / 12; // 0.6% per month
+  const n = years * 12;
+  return pmt * (Math.pow(1 + r, n) - 1) / r;
+}
+
+/* ═══════════════════════════════════════
    STATE
 ═══════════════════════════════════════ */
 const S = {
   incFreq:  'monthly',
   daily:    50,
+  chosenDaily: 50,
   goal:     'Emergency Fund',
   goalTgt:  25000,
   saved:    3200,
@@ -965,6 +1079,7 @@ function go(id) {
   // Screen-specific init
   if (id === 'sc-payment') buildCal();
   if (id === 'sc-dash')    buildDash();
+  if (id === 'sc-autopay') buildAutopayScreen();
 }
 
 /* ═══════════════════════════════════════
@@ -972,10 +1087,12 @@ function go(id) {
 ═══════════════════════════════════════ */
 function landCalc() {
   const v = +document.getElementById('lc-slider').value;
+  const pmt = v * 30; // daily to monthly
   document.getElementById('lc-lbl').textContent = '₹'+v+'/day';
-  document.getElementById('lc-1y').textContent  = '₹'+f(v*365);
-  document.getElementById('lc-3y').textContent  = '₹'+f(v*365*3);
-  document.getElementById('lc-5y').textContent  = '₹'+f(v*365*5);
+  document.getElementById('lc-1y').textContent  = '₹'+f(fvRD(pmt, 1));
+  document.getElementById('lc-3y').textContent  = '₹'+f(fvRD(pmt, 3));
+  document.getElementById('lc-5y').textContent  = '₹'+f(fvRD(pmt, 5));
+  document.getElementById('lc-30y').textContent = '₹'+f(fvRD(pmt, 30));
 }
 
 /* ═══════════════════════════════════════
@@ -1014,9 +1131,33 @@ function selInc(f) {
 function updOb2() {
   const v = +document.getElementById('ob2-sl').value;
   S.daily = v;
+  const pmt = v * 30;
   document.getElementById('ob2-num').textContent = '₹'+v;
   document.getElementById('ob2-tip').innerHTML =
-    `Even ₹${v} a day creates a strong future. ₹${v}/day = <strong>₹${f(v*365)}</strong> in just one year!`;
+    `Even ₹${v} a day creates a strong future. That's ₹${f(v*365)} in just one year with disciplined saving!`;
+
+  // Update rotating quote
+  const quotes = [
+    'छोटी बचत, बड़े सपने।',
+    'The best time to start saving was yesterday.',
+    '₹50 today is ₹19 lakh in 30 years.',
+    'Financial freedom begins with one habit.',
+    'Save to become rich.'
+  ];
+  const quoteEl = document.getElementById('ob2-quote');
+  if (quoteEl) {
+    const idx = Math.floor(Math.random() * quotes.length);
+    quoteEl.textContent = quotes[idx];
+  }
+
+  // Value proposition
+  if(document.getElementById('vp-1y')) {
+    document.getElementById('vp-1y').textContent  = '₹'+f(fvRD(pmt,1));
+    document.getElementById('vp-5y').textContent  = '₹'+f(fvRD(pmt,5));
+    const v30 = fvRD(pmt,30);
+    document.getElementById('vp-30y').textContent = v30 >= 100000 ? '₹'+Math.round(v30/100000*10)/10+'L' : '₹'+f(v30);
+  }
+
   document.querySelectorAll('#sc-ob2 .chip').forEach(c => c.classList.remove('on'));
 }
 
@@ -1054,7 +1195,9 @@ function buildPlanChart(months) {
   const labels=[], data=[], tgt=[];
   for (let m=0; m<=len; m++) {
     labels.push(m===0?'Now':m+'m');
-    data.push(Math.min(m*pm, S.goalTgt));
+    const r = 0.072/12;
+    const compoundVal = m===0 ? 0 : S.daily*30 * (Math.pow(1+r,m)-1)/r;
+    data.push(Math.min(compoundVal, S.goalTgt));
     tgt.push(S.goalTgt);
   }
   if (S.charts.plan) S.charts.plan.destroy();
@@ -1127,10 +1270,14 @@ function buildDash() {
     document.getElementById('prog-ring').style.strokeDashoffset = circ*(1-pct/100);
   }, 350);
 
-  // Projections
-  const m6  = Math.min(S.saved+pm*6,  S.goalTgt);
-  const m12 = Math.min(S.saved+pm*12, S.goalTgt);
-  const m24 = Math.min(S.saved+pm*24, S.goalTgt);
+  // Projections with compound interest
+  const r = 0.072/12;
+  function fvM(months) {
+    return Math.min(S.saved + pm * (Math.pow(1+r,months)-1)/r, S.goalTgt);
+  }
+  const m6  = fvM(6);
+  const m12 = fvM(12);
+  const m24 = fvM(24);
   document.getElementById('d-6m').textContent  = '₹'+f(m6)  +(m6>=S.goalTgt?' 🎯':'');
   document.getElementById('d-12m').textContent = '₹'+f(m12) +(m12>=S.goalTgt?' 🎯':'');
   document.getElementById('d-2y').textContent  = '₹'+f(m24) +(m24>=S.goalTgt?' ✅':'');
@@ -1282,6 +1429,74 @@ function selWD(opt) {
 function doPause(days) {
   toast(`✅ Savings paused for ${days} days. Stay strong!`);
   closeSheet('sh-pause');
+}
+
+/* ═══════════════════════════════════════
+   AUTOPAY SCREEN
+═══════════════════════════════════════ */
+function buildAutopayScreen() {
+  const min = S.daily;
+  const months = Math.ceil(S.goalTgt / (min*30));
+  document.getElementById('ap-min').textContent    = min;
+  document.getElementById('ap-months').textContent = months + ' months';
+  document.getElementById('ap-custom').value = min;
+
+  // Build boost options
+  const boosts = [
+    { mult: 1,   label: 'Minimum plan',  tag: 'As planned' },
+    { mult: 1.5, label: '1.5× boost',    tag: 'Popular 🔥' },
+    { mult: 2,   label: '2× boost',      tag: 'Recommended ⭐' },
+    { mult: 3,   label: '3× boost',      tag: 'Fast track 🚀' },
+  ];
+  const container = document.getElementById('ap-options');
+  container.innerHTML = boosts.map((b,i) => {
+    const amt = Math.round(min * b.mult);
+    const mos = Math.ceil(S.goalTgt / (amt*30));
+    const v30 = fvRD(amt*30, 30);
+    const v30str = v30 >= 100000 ? '₹'+Math.round(v30/100000*10)/10+'L' : '₹'+f(v30);
+    return `<div class="opt ${i===0?'on':''}" id="apopt-${i}" onclick="selAP(${i}, ${amt})">
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+          <span style="font-size:15px;font-weight:800;">₹${amt}/day</span>
+          <span class="tag ${i===2?'g':'y'}" style="font-size:10px;">${b.tag}</span>
+        </div>
+        <div style="font-size:12px;color:var(--mid);">Goal in ${mos} months · 30yr = <strong style="color:var(--gd);">${v30str}</strong></div>
+      </div>
+      <div class="chk">✓</div>
+    </div>`;
+  }).join('');
+
+  S.chosenDaily = min;
+  updAPProj(min);
+}
+
+function selAP(idx, amt) {
+  document.querySelectorAll('[id^=apopt-]').forEach((el,i) => el.classList.toggle('on', i===idx));
+  S.chosenDaily = amt;
+  document.getElementById('ap-custom').value = amt;
+  document.getElementById('ap-chosen-lbl').textContent = amt;
+  updAPProj(amt);
+}
+
+function updCustomAP() {
+  const amt = +document.getElementById('ap-custom').value || S.daily;
+  S.chosenDaily = amt;
+  document.getElementById('ap-chosen-lbl').textContent = amt;
+  const mos = Math.ceil(S.goalTgt/(amt*30));
+  document.getElementById('ap-custom-eta').textContent = `Goal reached in ${mos} months`;
+  document.querySelectorAll('[id^=apopt-]').forEach(el => el.classList.remove('on'));
+  updAPProj(amt);
+}
+
+function updAPProj(amt) {
+  const pmt = amt * 30;
+  document.getElementById('ap-proj-5').textContent  = '₹'+f(fvRD(pmt,5));
+  document.getElementById('ap-proj-30').textContent = '₹'+Math.round(fvRD(pmt,30)/100000*10)/10+'L';
+}
+
+function confirmAutopay() {
+  S.daily = S.chosenDaily || S.daily;
+  go('sc-payment');
 }
 
 /* ═══════════════════════════════════════
