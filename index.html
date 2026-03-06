@@ -359,21 +359,24 @@
       <div style="font-size:20px;font-weight:900;">🌱 Sapne</div>
       <button class="btn out sm" style="width:auto;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4);color:#fff;" onclick="go('sc-login')">Login</button>
     </div>
-    <!-- Animated seedling growth sequence -->
-    <div style="margin-bottom:18px;display:flex;align-items:flex-end;justify-content:center;gap:6px;">
-      <div style="text-align:center;opacity:.5;">
-        <div style="font-size:32px;animation:pulse 3s infinite;">🌱</div>
-        <div style="font-size:9px;color:rgba(255,255,255,.6);margin-top:4px;font-weight:600;">Day 1</div>
+    <!-- Growth milestone strip -->
+    <div style="margin-bottom:22px;display:flex;align-items:center;justify-content:center;gap:0;">
+      <div style="display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.18);border-radius:16px 0 0 16px;padding:14px 18px;min-width:88px;">
+        <div style="font-size:28px;margin-bottom:4px;">🌱</div>
+        <div style="font-size:11px;font-weight:800;color:#fff;">Day 1</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.7);margin-top:2px;">Start small</div>
       </div>
-      <div style="color:rgba(255,255,255,.4);font-size:18px;padding-bottom:18px;">›</div>
-      <div style="text-align:center;opacity:.75;">
-        <div style="font-size:52px;animation:pulse 3s infinite 0.3s;">🌿</div>
-        <div style="font-size:9px;color:rgba(255,255,255,.6);margin-top:4px;font-weight:600;">3 months</div>
+      <div style="width:28px;height:2px;background:rgba(255,255,255,.3);"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.24);padding:14px 18px;min-width:88px;">
+        <div style="font-size:28px;margin-bottom:4px;">🌿</div>
+        <div style="font-size:11px;font-weight:800;color:#fff;">3 Months</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.7);margin-top:2px;">Habit locked</div>
       </div>
-      <div style="color:rgba(255,255,255,.4);font-size:18px;padding-bottom:18px;">›</div>
-      <div style="text-align:center;">
-        <div style="font-size:72px;animation:pulse 3s infinite 0.6s;">🌳</div>
-        <div style="font-size:9px;color:rgba(255,255,255,.8);margin-top:4px;font-weight:700;">Your goal ✓</div>
+      <div style="width:28px;height:2px;background:rgba(255,255,255,.3);"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.32);border-radius:0 16px 16px 0;padding:14px 18px;min-width:88px;">
+        <div style="font-size:28px;margin-bottom:4px;">🌳</div>
+        <div style="font-size:11px;font-weight:800;color:#fff;">Goal ✓</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.85);margin-top:2px;font-weight:700;">Dream reached</div>
       </div>
     </div>
     <h1 style="font-size:32px;font-weight:900;line-height:1.15;margin-bottom:10px;">₹50 a day can<br>change your future.</h1>
@@ -524,6 +527,60 @@
 <!-- ═══════════════════════════════════════
      ONBOARDING 1 — INCOME FREQUENCY
 ═══════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════
+     VIDEO ONBOARDING
+═══════════════════════════════════════ -->
+<div id="sc-video" class="sc">
+  <div style="background:linear-gradient(160deg,#1A1A2E,#16213E);min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:0;">
+    <!-- Top bar -->
+    <div style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 0;box-sizing:border-box;">
+      <div style="font-size:18px;font-weight:900;color:#fff;">🌱 Sapne</div>
+      <button style="background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.6);font-size:12px;padding:6px 14px;border-radius:99px;cursor:pointer;font-family:inherit;" onclick="go('sc-ob2')">Skip →</button>
+    </div>
+
+    <!-- Video placeholder -->
+    <div style="width:100%;padding:20px 20px 0;box-sizing:border-box;">
+      <div style="background:linear-gradient(135deg,#0f0f23,#1a1a3e);border-radius:20px;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;border:1.5px solid rgba(255,255,255,.12);">
+        <!-- Placeholder shimmer -->
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(46,204,113,.08),rgba(46,204,113,.03));"></div>
+        <!-- Play button -->
+        <div style="width:64px;height:64px;background:rgba(46,204,113,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(46,204,113,.5);cursor:pointer;z-index:1;">
+          <div style="width:0;height:0;border-style:solid;border-width:11px 0 11px 20px;border-color:transparent transparent transparent #fff;margin-left:4px;"></div>
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:12px;z-index:1;font-style:italic;">[ Your brand video goes here ]</div>
+        <!-- Duration badge -->
+        <div style="position:absolute;bottom:12px;right:14px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;padding:3px 8px;border-radius:6px;">0:45</div>
+      </div>
+    </div>
+
+    <!-- Content below video -->
+    <div style="flex:1;padding:24px 20px;box-sizing:border-box;width:100%;display:flex;flex-direction:column;">
+      <h2 style="color:#fff;font-size:22px;font-weight:900;margin-bottom:8px;line-height:1.3;">Save ₹50 a day.<br>Build a lifetime of dreams.</h2>
+      <p style="color:rgba(255,255,255,.6);font-size:14px;line-height:1.7;margin-bottom:24px;">Sapne makes saving automatic, simple, and actually exciting. Thousands of people are already building their future — join them.</p>
+
+      <!-- 3 trust points -->
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:36px;height:36px;background:rgba(46,204,113,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">⚡</div>
+          <div><div style="color:#fff;font-size:13px;font-weight:700;">Set up in 2 minutes</div><div style="color:rgba(255,255,255,.5);font-size:12px;">Quick UPI autopay, no paperwork</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:36px;height:36px;background:rgba(249,202,36,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">📈</div>
+          <div><div style="color:#fff;font-size:13px;font-weight:700;">7.2% compound interest</div><div style="color:rgba(255,255,255,.5);font-size:12px;">Your money grows while you sleep</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:36px;height:36px;background:rgba(46,204,113,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">🔒</div>
+          <div><div style="color:#fff;font-size:13px;font-weight:700;">Bank-grade security</div><div style="color:rgba(255,255,255,.5);font-size:12px;">RBI regulated · No lock-in</div></div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <button class="btn g" onclick="go('sc-ob2')" style="font-size:16px;padding:18px;border-radius:16px;font-weight:900;margin-top:auto;">Let's Start → 🚀</button>
+    </div>
+  </div>
+</div>
+
 <div id="sc-ob1" class="sc">
   <div class="hdr"><div class="hdr-back" onclick="go('sc-otp')">←</div><div style="font-weight:700;">Quick Setup</div><div class="hdr-step">1 / 3</div></div>
   <div class="dots"><div class="dot on" id="d1a"></div><div class="dot" id="d1b"></div><div class="dot" id="d1c"></div></div>
@@ -606,17 +663,17 @@
     </div>
     <div style="background:var(--yl);border:1.5px solid var(--y);border-radius:14px;padding:14px;margin-bottom:24px;">
       <div style="font-size:13px;font-weight:700;color:#7D6608;margin-bottom:4px;">💡 Did you know?</div>
-      <div style="font-size:12px;color:#92400E;line-height:1.6;" id="ob2-tip">Even ₹20 a day creates a strong future. ₹50/day = <strong>₹18,250</strong> in just one year!</div>
+      <div style="font-size:12px;color:#92400E;line-height:1.6;" id="ob2-tip">Even ₹50/day becomes <strong>₹18,659</strong> in 1 year at 7.2% compound interest!</div>
     </div>
-    <button class="btn g" onclick="go('sc-ob3')">Next →</button>
+    <button class="btn g" onclick="go('sc-payment')">Next → Set up AutoSave</button>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════
      ONBOARDING 3 — GOAL SELECTION
 ═══════════════════════════════════════ -->
-<div id="sc-ob3" class="sc">
-  <div class="hdr"><div class="hdr-back" onclick="go('sc-ob2')">←</div><div style="font-weight:700;">Your Goal</div><div class="hdr-step">3 / 3</div></div>
+<div id="sc-goal" class="sc">
+  <div class="hdr"><div class="hdr-back" onclick="go('sc-payment')">←</div><div style="font-weight:700;">Your Dream</div><div class="hdr-step"></div></div>
   <div class="dots"><div class="dot done"></div><div class="dot done"></div><div class="dot on"></div></div>
   <div class="wraps fu">
     <div style="margin-bottom:22px;">
@@ -631,7 +688,7 @@
       <div class="gtile" data-g="Travel" data-t="30000" onclick="selGoal(this)"><div class="gi">✈️</div><div class="gl">Travel</div></div>
       <div class="gtile" data-g="Just Saving" data-t="10000" onclick="selGoal(this)"><div class="gi">🐷</div><div class="gl">Just Saving</div></div>
     </div>
-    <button class="btn g" style="margin-top:24px;" onclick="mkPlan()">Show my plan →</button>
+    <button class="btn g" style="margin-top:24px;font-size:16px;padding:18px;border-radius:16px;font-weight:900;" onclick="startSaving()">Start Saving My Dream! 🚀</button>
   </div>
 </div>
 
@@ -733,7 +790,7 @@
      PAYMENT SETUP
 ═══════════════════════════════════════ -->
 <div id="sc-payment" class="sc">
-  <div class="hdr"><div class="hdr-back" onclick="go('sc-plan')">←</div><div style="font-weight:700;">Auto Save Setup</div><div></div></div>
+  <div class="hdr"><div class="hdr-back" onclick="go('sc-ob2')">←</div><div style="font-weight:700;">Auto Save Setup</div><div></div></div>
   <div class="wrap fu">
     <div style="text-align:center;margin-bottom:20px;">
       <div style="font-size:48px;margin-bottom:10px;">⚡</div>
@@ -887,6 +944,18 @@
       </div>
     </div>
 
+    <!-- Add New Goal Card -->
+    <div style="background:linear-gradient(135deg,#EBF8FF,#E8F4FD);border:1.5px solid #BEE3F8;border-radius:20px;padding:20px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="font-size:36px;">🎯</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:800;color:#1A365D;margin-bottom:2px;">Add another dream</div>
+          <div style="font-size:12px;color:#4A5568;line-height:1.5;">Set up a second AutoSave mandate for a new goal — Bike, Travel, or anything you want.</div>
+        </div>
+      </div>
+      <button onclick="go('sc-newgoal')" style="width:100%;margin-top:14px;background:linear-gradient(135deg,#2B6CB0,#3182CE);color:#fff;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;">+ Add New Goal</button>
+    </div>
+
     <!-- Emergency Withdraw — subtle -->
     <div style="text-align:center;padding:8px 0 4px;">
       <button style="background:none;border:none;font-size:12px;color:var(--mid);cursor:pointer;text-decoration:underline;" onclick="openSheet('sh-withdraw')">
@@ -902,6 +971,45 @@
     <div class="ni" onclick="showTracker()"><div class="nico">📊</div><div>Track</div></div>
     <div class="ni" onclick="openSheet('sh-insights')"><div class="nico">📈</div><div>Insights</div></div>
     <div class="ni" onclick="openSheet('sh-pause')"><div class="nico">⚙️</div><div>More</div></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     ADD NEW GOAL / MANDATE
+═══════════════════════════════════════ -->
+<div id="sc-newgoal" class="sc">
+  <div class="hdr"><div class="hdr-back" onclick="go('sc-dash')">←</div><div style="font-weight:700;">New Dream</div><div></div></div>
+  <div class="wraps fu">
+    <div style="margin-bottom:20px;">
+      <div style="font-size:40px;text-align:center;margin-bottom:12px;">✨</div>
+      <h2 style="text-align:center;">What's your next<br>dream?</h2>
+      <p class="muted" style="text-align:center;">Add a second goal and let Sapne save for it automatically.</p>
+    </div>
+
+    <div class="gtiles">
+      <div class="gtile" data-g="Bike" data-t="80000" onclick="selNewGoal(this)"><div class="gi">🏍️</div><div class="gl">Bike</div></div>
+      <div class="gtile" data-g="Travel" data-t="30000" onclick="selNewGoal(this)"><div class="gi">✈️</div><div class="gl">Travel</div></div>
+      <div class="gtile" data-g="Wedding" data-t="200000" onclick="selNewGoal(this)"><div class="gi">💍</div><div class="gl">Wedding</div></div>
+      <div class="gtile" data-g="Education" data-t="100000" onclick="selNewGoal(this)"><div class="gi">📚</div><div class="gl">Education</div></div>
+      <div class="gtile" data-g="House" data-t="500000" onclick="selNewGoal(this)"><div class="gi">🏠</div><div class="gl">Home</div></div>
+      <div class="gtile" data-g="Just Saving" data-t="10000" onclick="selNewGoal(this)"><div class="gi">🐷</div><div class="gl">Just Save</div></div>
+    </div>
+
+    <!-- Selected goal preview -->
+    <div id="ng-preview" style="display:none;background:linear-gradient(135deg,#2B6CB0,#3182CE);border-radius:16px;padding:18px;color:#fff;margin-top:16px;text-align:center;">
+      <div style="font-size:13px;opacity:.8;margin-bottom:4px;">New mandate for</div>
+      <div style="font-size:22px;font-weight:900;" id="ng-name">Bike</div>
+      <div style="font-size:13px;opacity:.8;margin-top:4px;">How much to save daily?</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-top:12px;">
+        <button onclick="adjNG(-10)" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer;">−</button>
+        <div style="font-size:32px;font-weight:900;">₹<span id="ng-amt">50</span>/day</div>
+        <button onclick="adjNG(10)" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer;">+</button>
+      </div>
+      <div style="font-size:12px;opacity:.75;margin-top:8px;">= ₹<span id="ng-1y">18,659</span> in 1 year at 7.2%</div>
+    </div>
+
+    <button id="ng-btn" class="btn g" style="margin-top:20px;font-size:16px;padding:18px;border-radius:16px;font-weight:900;display:none;" onclick="addNewGoal()">Set Up AutoSave for This 🚀</button>
   </div>
 </div>
 
@@ -1115,7 +1223,7 @@ function oNext(i) {
 
 function verOTP() {
   const otp = [0,1,2,3,4,5].map(i => document.getElementById('o'+i).value).join('');
-  if (otp === '123456') { go('sc-ob1'); }
+  if (otp === '123456') { go('sc-video'); }
   else { toast('❌ Wrong OTP. Hint: 1 2 3 4 5 6'); }
 }
 
@@ -1133,8 +1241,9 @@ function updOb2() {
   S.daily = v;
   const pmt = v * 30;
   document.getElementById('ob2-num').textContent = '₹'+v;
+  const tip1y = fvRD(v*30, 1);
   document.getElementById('ob2-tip').innerHTML =
-    `Even ₹${v} a day creates a strong future. That's ₹${f(v*365)} in just one year with disciplined saving!`;
+    `Even ₹${v}/day becomes <strong>₹${f(tip1y)}</strong> in 1 year at 7.2% compound interest!`;
 
   // Update rotating quote
   const quotes = [
@@ -1178,6 +1287,45 @@ function selGoal(el) {
 /* ═══════════════════════════════════════
    PLAN CREATION
 ═══════════════════════════════════════ */
+function startSaving() {
+  mkPlan();
+  setTimeout(() => go('sc-dash'), 200);
+}
+
+
+/* ═══════════════════════════════════════
+   NEW GOAL SCREEN
+═══════════════════════════════════════ */
+let ngGoal = null;
+let ngAmt  = 50;
+
+function selNewGoal(el) {
+  document.querySelectorAll('#sc-newgoal .gtile').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  ngGoal = el.dataset.g;
+  ngAmt  = 50;
+  document.getElementById('ng-name').textContent = ngGoal;
+  updNgPreview();
+  document.getElementById('ng-preview').style.display = 'block';
+  document.getElementById('ng-btn').style.display = 'block';
+}
+
+function adjNG(delta) {
+  ngAmt = Math.max(10, Math.min(500, ngAmt + delta));
+  document.getElementById('ng-amt').textContent = ngAmt;
+  updNgPreview();
+}
+
+function updNgPreview() {
+  const pmt = ngAmt * 30;
+  document.getElementById('ng-1y').textContent = f(fvRD(pmt, 1));
+}
+
+function addNewGoal() {
+  toast('🎯 New goal added! AutoSave set for ₹' + ngAmt + '/day');
+  setTimeout(() => go('sc-dash'), 1000);
+}
+
 function mkPlan() {
   const months = Math.ceil(S.goalTgt / (S.daily * 30));
   document.getElementById('pl-goal').textContent   = S.goal;
@@ -1242,7 +1390,7 @@ function buildCal() {
 
 function activate() {
   toast('🎉 Auto Save activated! You\'re on your way!');
-  setTimeout(() => go('sc-dash'), 900);
+  setTimeout(() => go('sc-goal'), 900);
 }
 
 /* ═══════════════════════════════════════
