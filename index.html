@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SaveSmart – Build Your Future</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --g:    #2ECC71;
+      --gd:   #27AE60;
+      --gl:   #F0FFF4;
+      --gm:   #D5F5E3;
+      --y:    #F9CA24;
+      --yl:   #FFFDE7;
+      --ink:  #1A1A2E;
+      --mid:  #6B7280;
+      --bdr:  #E5E7EB;
+      --bg:   #F7FDF9;
+      --wh:   #FFFFFF;
+      --red:  #E74C3C;
+      --r:    20px;
+      --rs:   12px;
+      --sh:   0 4px 20px rgba(46,204,113,.15);
+      --shs:  0 2px 8px rgba(0,0,0,.07);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+
+    /* ── DESKTOP STAGE ── */
+    body{
+      font-family:'Poppins',sans-serif;color:var(--ink);
+      min-height:100vh;
+      background: linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%);
+      display:flex;align-items:center;justify-content:center;
+      padding:40px 20px;
+    }
+
+    /* ── iPHONE 15 PRO FRAME ── */
+    .iphone-outer{
+      position:relative;
+      width:393px;
+      flex-shrink:0;
+    }
+    /* Side buttons */
+    .iphone-outer::before{  /* volume / silent switch */
+      content:'';
+      position:absolute;
+      left:-4px; top:100px;
+      width:4px; height:32px;
+      background:#3A3A3C;
+      border-radius:3px 0 0 3px;
+      box-shadow:-1px 0 3px rgba(0,0,0,.5);
+    }
+    .iphone-outer::after{   /* power button */
+      content:'';
+      position:absolute;
+      right:-4px; top:130px;
+      width:4px; height:72px;
+      background:#3A3A3C;
+      border-radius:0 3px 3px 0;
+      box-shadow:1px 0 3px rgba(0,0,0,.5);
+    }
+    /* Volume up/down (extra pseudo via wrapper) */
+    .iphone-vol{
+      position:absolute;
+      left:-4px; top:150px;
+      width:4px; height:64px;
+      background:#3A3A3C;
+      border-radius:3px 0 0 3px;
+      box-shadow:-1px 0 3px rgba(0,0,0,.5);
+      pointer-events:none;
+    }
+
+    .iphone-frame{
+      background:linear-gradient(160deg,#2C2C2E 0%,#1C1C1E 40%,#3A3A3C 100%);
+      border-radius:54px;
+      padding:14px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.08),
+        0 30px 80px rgba(0,0,0,.7),
+        inset 0 1px 0 rgba(255,255,255,.15),
+        inset 0 -1px 0 rgba(0,0,0,.5);
+    }
+    .iphone-screen-wrap{
+      background:#000;
+      border-radius:44px;
+      overflow:hidden;
+      position:relative;
+      height:852px;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
+    }
+
+    /* Dynamic Island */
+    .dynamic-island{
+      position:absolute;
+      top:12px;left:50%;transform:translateX(-50%);
+      width:120px;height:36px;
+      background:#000;
+      border-radius:20px;
+      z-index:9999;
+      box-shadow:0 0 0 2px #111;
+      display:flex;align-items:center;justify-content:space-around;
+      padding:0 22px;
+    }
+    .di-cam{width:10px;height:10px;background:#1a1a1a;border-radius:50%;border:1px solid #333;}
+    .di-sensor{width:6px;height:6px;background:#1C3A3A;border-radius:50%;}
+
+    /* Home indicator */
+    .home-ind{
+      position:absolute;
+      bottom:8px;left:50%;transform:translateX(-50%);
+      width:130px;height:5px;
+      background:rgba(255,255,255,.35);
+      border-radius:99px;
+      z-index:9999;
+    }
+
+    /* Screen content scroll area */
+    .phone{
+      width:100%;
+      height:852px;
+      overflow-y:auto;
+      overflow-x:hidden;
+      background:var(--wh);
+      position:relative; /* anchor for absolute modals */
+      padding-top:0;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    .phone::-webkit-scrollbar{display:none;}
+    /* Toast fixed inside phone */
+    #toast{position:absolute;bottom:90px;left:50%;transform:translateX(-50%);}
+
+    /* Status bar space (under dynamic island) */
+    .sc{padding-top:0;}
+    .hero{padding-top:56px !important;}
+    .hdr{padding-top:56px !important;}
+    #sc-login .hero{padding-top:60px !important;}
+    #sc-otp .hdr, #sc-ob1 .hdr, #sc-ob2 .hdr, #sc-ob3 .hdr,
+    #sc-plan .hdr, #sc-payment .hdr, #sc-dash .hdr,
+    #sc-tracker .hdr{padding-top:56px !important;}
+    #sc-dash>div:first-child{padding-top:68px !important;}
+
+    /* Toast inside frame — handled below */
+
+    /* ── SCREEN SYSTEM ── */
+    .sc{display:none;min-height:100vh;}
+    .sc.on{display:block;}
+
+    /* ── HEADER BAR ── */
+    .hdr{background:linear-gradient(135deg,var(--gd),var(--g));padding:16px 20px;display:flex;align-items:center;justify-content:space-between;color:#fff;}
+    .hdr-logo{font-size:18px;font-weight:900;}
+    .hdr-back{font-size:22px;cursor:pointer;line-height:1;}
+    .hdr-step{font-size:11px;opacity:.8;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:20px;}
+
+    /* ── STEP DOTS ── */
+    .dots{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--bdr);transition:all .3s;}
+    .dot.on{background:var(--g);width:24px;border-radius:4px;}
+    .dot.done{background:var(--gm);}
+
+    /* ── WRAPPER ── */
+    .wrap{padding:24px 20px 100px;}
+    .wraps{padding:16px 20px 96px;}
+
+    /* ── CARD ── */
+    .card{background:var(--wh);border-radius:var(--r);box-shadow:var(--shs);padding:20px;margin-bottom:14px;border:1px solid var(--bdr);}
+    .card.green{background:linear-gradient(135deg,var(--gd),var(--g));color:#fff;border:none;box-shadow:var(--sh);}
+    .card.yel{background:var(--yl);border-color:var(--y);}
+    .card.red{background:#FFF5F5;border-color:#FCA5A5;}
+
+    /* ── BUTTONS ── */
+    .btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 24px;border-radius:var(--rs);border:none;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;width:100%;}
+    .btn.g{background:var(--g);color:#fff;}
+    .btn.g:hover{background:var(--gd);transform:translateY(-1px);}
+    .btn.g:active{transform:scale(.98);}
+    .btn.out{background:transparent;color:var(--g);border:2px solid var(--g);}
+    .btn.out:hover{background:var(--gl);}
+    .btn.yel{background:var(--y);color:var(--ink);}
+    .btn.red{background:var(--red);color:#fff;}
+    .btn.ghost{background:transparent;color:var(--mid);border:1.5px solid var(--bdr);}
+    .btn.sm{padding:10px 16px;font-size:13px;border-radius:10px;}
+    .btn-row{display:flex;gap:10px;}
+
+    /* ── FORM ── */
+    .lbl{display:block;font-size:13px;font-weight:600;margin-bottom:8px;}
+    .inp{width:100%;padding:14px 16px;border-radius:var(--rs);border:1.5px solid var(--bdr);font-family:'Poppins',sans-serif;font-size:15px;color:var(--ink);outline:none;transition:border .2s;}
+    .inp:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(46,204,113,.15);}
+    .fg{margin-bottom:20px;}
+    .pfx-wrap{position:relative;}
+    .pfx{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--mid);pointer-events:none;}
+    .pfx+.inp{padding-left:28px;}
+
+    /* ── CHIPS ── */
+    .chips{display:flex;flex-wrap:wrap;gap:8px;}
+    .chip{padding:9px 16px;border-radius:24px;border:1.5px solid var(--bdr);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;background:var(--wh);}
+    .chip.on{border-color:var(--g);background:var(--gl);color:var(--gd);}
+
+    /* ── OPTION CARDS ── */
+    .opt{border:1.5px solid var(--bdr);border-radius:16px;padding:16px 18px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;background:var(--wh);margin-bottom:10px;}
+    .opt:hover{border-color:var(--g);background:var(--gl);}
+    .opt.on{border-color:var(--g);background:var(--gl);}
+    .opt .ico{font-size:26px;flex-shrink:0;}
+    .opt .info .ttl{font-size:15px;font-weight:700;}
+    .opt .info .sub{font-size:12px;color:var(--mid);}
+    .opt .chk{margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;transition:all .2s;flex-shrink:0;}
+    .opt.on .chk{background:var(--g);border-color:var(--g);color:#fff;}
+
+    /* ── GOAL TILES ── */
+    .gtiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+    .gtile{border:1.5px solid var(--bdr);border-radius:16px;padding:16px 8px;text-align:center;cursor:pointer;transition:all .2s;background:var(--wh);}
+    .gtile .gi{font-size:30px;margin-bottom:8px;}
+    .gtile .gl{font-size:11px;font-weight:700;color:var(--ink);line-height:1.3;}
+    .gtile.on{border-color:var(--g);background:var(--gl);}
+    .gtile.on .gl{color:var(--gd);}
+
+    /* ── RANGE SLIDER ── */
+    input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--gm);outline:none;cursor:pointer;}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--g);border:3px solid #fff;box-shadow:0 2px 8px rgba(46,204,113,.5);}
+
+    /* ── OTP BOXES ── */
+    .otp-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:24px;}
+    .otpb{padding:14px 6px;border:1.5px solid var(--bdr);border-radius:12px;text-align:center;font-size:20px;font-weight:800;outline:none;font-family:'Poppins',sans-serif;width:100%;transition:border .2s;}
+    .otpb:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(46,204,113,.15);}
+
+    /* ── CIRCULAR RING ── */
+    .ring-wrap{width:190px;height:190px;margin:0 auto;position:relative;display:flex;align-items:center;justify-content:center;}
+    .ring-svg{position:absolute;top:0;left:0;transform:rotate(-90deg);}
+    .ring-inner{text-align:center;z-index:1;}
+    .ring-pct{font-size:38px;font-weight:900;color:var(--gd);line-height:1;}
+    .ring-lbl{font-size:10px;font-weight:700;color:var(--mid);letter-spacing:.05em;}
+
+    /* ── STREAK ── */
+    .streak{background:linear-gradient(90deg,#FF6B35,#F9CA24);border-radius:18px;padding:16px 20px;color:#fff;display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+
+    /* ── MILESTONES ── */
+    .mrow{display:flex;flex-direction:column;}
+    .mitem{display:flex;align-items:center;gap:14px;padding:12px 0;position:relative;}
+    .mitem+.mitem::before{content:'';position:absolute;left:18px;top:-12px;width:2px;height:24px;background:var(--bdr);}
+    .mitem.done+.mitem::before{background:var(--g);}
+    .mdot{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;border:2.5px solid var(--bdr);background:var(--wh);z-index:1;}
+    .mitem.done .mdot{border-color:var(--g);background:var(--gl);}
+    .mitem.cur .mdot{border-color:var(--y);background:var(--yl);box-shadow:0 0 0 4px rgba(249,202,36,.25);}
+    .mamt{font-size:15px;font-weight:700;}
+    .mlbl{font-size:12px;color:var(--mid);}
+
+    /* ── BADGES ── */
+    .bdg-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+    .bdg{border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;}
+    .bdg.on{background:#FEF3C7;color:#92400E;}
+    .bdg.off{background:var(--bdr);color:var(--mid);}
+
+    /* ── CALENDAR ── */
+    .cal{display:flex;flex-wrap:wrap;gap:5px;}
+    .cday{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+    .cday.s{background:var(--g);color:#fff;}
+    .cday.t{background:var(--y);color:var(--ink);}
+    .cday.f{background:var(--bdr);color:var(--mid);}
+
+    /* ── CHART ── */
+    .ch-wrap{position:relative;height:185px;margin-top:10px;}
+
+    /* ── PROJECTION TABLE ── */
+    .ptbl{width:100%;border-collapse:separate;border-spacing:0 8px;}
+    .ptbl td{padding:12px 14px;font-size:14px;}
+    .ptbl td:first-child{border-radius:10px 0 0 10px;font-weight:600;}
+    .ptbl td:last-child{border-radius:0 10px 10px 0;text-align:right;font-weight:800;color:var(--gd);}
+    .pr1 td{background:#F0FFF4;}
+    .pr2 td{background:#D5F5E3;}
+    .pr3 td{background:#A9DFBF;}
+
+    /* ── TAGS ── */
+    .tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+    .tag.g{background:var(--gl);color:var(--gd);}
+    .tag.y{background:var(--yl);color:#7D6608;}
+    .tag.r{background:#FEF2F2;color:var(--red);}
+
+    /* ── SAVE ANIMATION ── */
+    .overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,.65);z-index:1000;align-items:center;justify-content:center;flex-direction:column;}
+    .overlay.on{display:flex;}
+    .save-card{background:#fff;border-radius:28px;padding:36px 28px;text-align:center;max-width:300px;margin:20px;animation:popUp .4s cubic-bezier(.34,1.56,.64,1);}
+    @keyframes popUp{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+    .coin-stage{height:110px;position:relative;display:flex;align-items:flex-end;justify-content:center;font-size:80px;}
+    .cfall{position:absolute;font-size:24px;animation:cDrop 1s ease-in forwards;}
+    @keyframes cDrop{0%{top:-70px;opacity:1;transform:rotate(0)}100%{top:50px;opacity:0;transform:rotate(720deg)}}
+
+    /* ── BOTTOM SHEET ── */
+    .bsheet{display:none;position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:600;align-items:flex-end;}
+    .bsheet.on{display:flex;}
+    .bscnt{background:#fff;border-radius:24px 24px 0 0;padding:28px 20px 40px;width:100%;max-width:430px;margin:0 auto;animation:slideUp .3s ease;}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .handle{width:40px;height:4px;background:var(--bdr);border-radius:99px;margin:0 auto 20px;}
+
+    /* ── BOTTOM NAV ── */
+    .bnav{position:sticky;bottom:0;left:0;right:0;width:100%;background:#fff;border-top:1px solid var(--bdr);display:flex;z-index:100;padding:10px 0 18px;margin-top:-1px;}
+    .ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;font-weight:600;color:var(--mid);cursor:pointer;padding:4px 0;transition:color .2s;}
+    .ni .nico{font-size:22px;}
+    .ni.on{color:var(--gd);}
+
+    /* ── TOAST ── */
+    #toast{display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1A1A2E;color:#fff;padding:12px 20px;border-radius:14px;font-size:13px;font-weight:600;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:opacity .3s;}
+
+    /* ── MISC ── */
+    .div{height:1px;background:var(--bdr);margin:16px 0;}
+    .c{text-align:center;}
+    h2{font-size:22px;font-weight:800;margin-bottom:6px;line-height:1.25;}
+    h3{font-size:17px;font-weight:700;margin-bottom:4px;}
+    p{line-height:1.6;}
+    .muted{color:var(--mid);font-size:13px;}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+    .fu{animation:fadeUp .35s ease forwards;}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+    .pulse{animation:pulse 2s infinite;}
+    @keyframes growW{from{width:15%}to{width:72%}}
+
+    /* landing */
+    .hero{background:linear-gradient(160deg,var(--gd) 0%,var(--g) 55%,#58D68D 100%);padding:48px 24px 42px;text-align:center;color:#fff;}
+    .how-cards{display:flex;gap:10px;margin-bottom:0;}
+    .how-card{flex:1;background:#fff;border-radius:16px;padding:16px 10px;text-align:center;box-shadow:var(--shs);border:1px solid var(--bdr);}
+    .trust-row{display:flex;gap:10px;}
+    .tbadge{flex:1;background:var(--gl);border:1px solid var(--gm);border-radius:14px;padding:14px 10px;text-align:center;}
+
+    @media(max-width:380px){.gtiles{grid-template-columns:repeat(2,1fr);}.how-cards{flex-direction:column;}}
+  </style>
+</head>
+<body>
+
+<!-- iPhone 15 Pro Frame -->
+<div class="iphone-outer">
+  <div class="iphone-vol"></div>
+  <div class="iphone-frame">
+    <div class="iphone-screen-wrap">
+
+      <!-- Dynamic Island -->
+      <div class="dynamic-island">
+        <div class="di-cam"></div>
+        <div class="di-sensor"></div>
+      </div>
+
+      <!-- Home indicator -->
+      <div class="home-ind"></div>
+
+      <!-- App Content -->
+<div class="phone">
+
+<!-- ═══════════════════════════════════════
+     LANDING
+═══════════════════════════════════════ -->
+<div id="sc-land" class="sc on">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;">
+      <div style="font-size:20px;font-weight:900;">🌱 SaveSmart</div>
+      <button class="btn out sm" style="width:auto;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4);color:#fff;" onclick="go('sc-login')">Login</button>
+    </div>
+    <div style="font-size:80px;margin-bottom:12px;animation:pulse 3s infinite;">🌳</div>
+    <h1 style="font-size:32px;font-weight:900;line-height:1.15;margin-bottom:10px;">₹50 a day can<br>change your future.</h1>
+    <p style="font-size:15px;opacity:.85;max-width:280px;margin:0 auto 20px;">Start building a safety net with simple daily savings.</p>
+    <!-- Animated progress bar -->
+    <div style="background:rgba(255,255,255,.2);border-radius:99px;height:8px;max-width:200px;margin:0 auto 28px;overflow:hidden;">
+      <div style="height:100%;background:var(--y);border-radius:99px;animation:growW 2.5s ease-out infinite alternate;"></div>
+    </div>
+    <button class="btn yel" onclick="go('sc-login')" style="max-width:260px;margin:0 auto;font-size:16px;padding:18px;border-radius:16px;font-weight:900;">
+      Start Saving 🚀
+    </button>
+    <p style="font-size:12px;opacity:.6;margin-top:12px;">Free · No lock-in · 2 minutes to set up</p>
+  </div>
+
+  <!-- How it Works -->
+  <div style="padding:28px 20px 20px;">
+    <div style="text-align:center;margin-bottom:18px;">
+      <h2>How it works</h2>
+      <p class="muted">3 simple steps to your savings goal</p>
+    </div>
+    <div class="how-cards">
+      <div class="how-card">
+        <div style="font-size:30px;margin-bottom:8px;">🎯</div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:4px;">1. Choose goal</div>
+        <div class="muted" style="font-size:11px;">Emergency fund, Bike, Marriage, Education</div>
+      </div>
+      <div class="how-card">
+        <div style="font-size:30px;margin-bottom:8px;">💰</div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:4px;">2. Save small daily</div>
+        <div class="muted" style="font-size:11px;">₹30 · ₹50 · ₹100 — you decide</div>
+      </div>
+      <div class="how-card">
+        <div style="font-size:30px;margin-bottom:8px;">📈</div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:4px;">3. Build your future</div>
+        <div class="muted" style="font-size:11px;">₹18,000 saved in just 1 year!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trust -->
+  <div style="padding:0 20px 24px;">
+    <h3 style="text-align:center;margin-bottom:14px;">Trusted by 1 lakh+ savers</h3>
+    <div class="trust-row">
+      <div class="tbadge"><div style="font-size:22px;margin-bottom:6px;">🏦</div><div style="font-size:11px;font-weight:700;">Bank Grade<br>Security</div></div>
+      <div class="tbadge"><div style="font-size:22px;margin-bottom:6px;">🇮🇳</div><div style="font-size:11px;font-weight:700;">RBI<br>Compliant</div></div>
+      <div class="tbadge"><div style="font-size:22px;margin-bottom:6px;">👥</div><div style="font-size:11px;font-weight:700;">1 Lakh+<br>Savers</div></div>
+    </div>
+  </div>
+
+  <!-- Calculator -->
+  <div style="padding:0 20px 36px;">
+    <div style="background:var(--gl);border:1.5px solid var(--gm);border-radius:22px;padding:24px;">
+      <h3 style="margin-bottom:4px;">Quick Calculator</h3>
+      <p class="muted" style="margin-bottom:20px;font-size:12px;">Drag the slider — see your future savings</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;font-weight:600;">If you save daily</span>
+        <span style="font-size:22px;font-weight:900;color:var(--gd);" id="lc-lbl">₹50/day</span>
+      </div>
+      <input type="range" id="lc-slider" min="10" max="500" value="50" step="10" oninput="landCalc()" style="margin-bottom:20px;" />
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="padding:10px 0;font-size:13px;color:var(--mid);">1 year →</td><td style="text-align:right;font-size:16px;font-weight:800;color:var(--gd);" id="lc-1y">₹18,250</td></tr>
+        <tr style="border-top:1px dashed var(--gm);"><td style="padding:10px 0;font-size:13px;color:var(--mid);">3 years →</td><td style="text-align:right;font-size:16px;font-weight:800;color:var(--gd);" id="lc-3y">₹54,750</td></tr>
+        <tr style="border-top:1px dashed var(--gm);"><td style="padding:10px 0;font-size:13px;color:var(--mid);">5 years →</td><td style="text-align:right;font-size:20px;font-weight:900;color:var(--gd);" id="lc-5y">₹91,250</td></tr>
+      </table>
+      <button class="btn g" onclick="go('sc-login')" style="margin-top:18px;">Start your savings plan →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LOGIN
+═══════════════════════════════════════ -->
+<div id="sc-login" class="sc">
+  <div class="hero" style="padding:48px 24px 56px;">
+    <div style="font-size:52px;margin-bottom:14px;">👋</div>
+    <h2 style="color:#fff;font-size:26px;">Welcome to your<br>savings journey.</h2>
+    <p style="color:rgba(255,255,255,.8);font-size:14px;margin-top:8px;">Login or sign up in seconds — no password needed.</p>
+  </div>
+
+  <div class="wrap fu" style="margin-top:-24px;padding-top:0;">
+    <div class="card" style="border-radius:24px;padding:24px;">
+      <div class="fg">
+        <label class="lbl">Mobile number</label>
+        <div style="display:flex;gap:8px;">
+          <div style="background:var(--gl);border:1.5px solid var(--bdr);border-radius:var(--rs);padding:14px 12px;font-size:15px;font-weight:700;white-space:nowrap;flex-shrink:0;">🇮🇳 +91</div>
+          <input class="inp" type="tel" id="mob" placeholder="10-digit number" maxlength="10" />
+        </div>
+      </div>
+      <button class="btn g" onclick="toOTP()">Send OTP →</button>
+      <div class="div"></div>
+      <p class="muted c" style="font-size:12px;line-height:1.7;">No hidden charges · No lock-in · RBI compliant partners<br>By continuing you agree to our Terms &amp; Privacy Policy.</p>
+    </div>
+    <div style="text-align:center;margin-top:12px;">
+      <button class="btn ghost sm" onclick="go('sc-land')" style="width:auto;">← Back to home</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     OTP
+═══════════════════════════════════════ -->
+<div id="sc-otp" class="sc">
+  <div class="hdr"><div class="hdr-back" onclick="go('sc-login')">←</div><div style="font-weight:700;">Verify OTP</div><div></div></div>
+  <div class="wrap fu">
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="font-size:52px;margin-bottom:12px;">📱</div>
+      <h2>Enter OTP</h2>
+      <p class="muted">Sent to +91 <span id="otp-mob">XXXXXXXXXX</span></p>
+      <div style="margin-top:10px;" class="tag y">💡 Hint: enter 1 2 3 4 5 6</div>
+    </div>
+    <div class="otp-grid">
+      <input class="otpb" type="tel" maxlength="1" id="o0" oninput="oNext(0)" />
+      <input class="otpb" type="tel" maxlength="1" id="o1" oninput="oNext(1)" />
+      <input class="otpb" type="tel" maxlength="1" id="o2" oninput="oNext(2)" />
+      <input class="otpb" type="tel" maxlength="1" id="o3" oninput="oNext(3)" />
+      <input class="otpb" type="tel" maxlength="1" id="o4" oninput="oNext(4)" />
+      <input class="otpb" type="tel" maxlength="1" id="o5" oninput="oNext(5)" />
+    </div>
+    <button class="btn g" onclick="verOTP()">Verify &amp; Continue →</button>
+    <p class="muted c" style="margin-top:14px;font-size:12px;">Didn't receive it? <span style="color:var(--gd);cursor:pointer;font-weight:700;" onclick="toast('📲 OTP resent!')">Resend OTP</span></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ONBOARDING 1 — INCOME FREQUENCY
+═══════════════════════════════════════ -->
+<div id="sc-ob1" class="sc">
+  <div class="hdr"><div class="hdr-back" onclick="go('sc-otp')">←</div><div style="font-weight:700;">Quick Setup</div><div class="hdr-step">1 / 3</div></div>
+  <div class="dots"><div class="dot on" id="d1a"></div><div class="dot" id="d1b"></div><div class="dot" id="d1c"></div></div>
+  <div class="wraps fu">
+    <div style="margin-bottom:24px;">
+      <h2>How often do you<br>get paid?</h2>
+      <p class="muted">We'll match your savings plan to your income rhythm.</p>
+    </div>
+    <div id="inc-opts">
+      <div class="opt" id="io-daily" onclick="selInc('daily')">
+        <div class="ico">☀️</div>
+        <div class="info"><div class="ttl">Daily wages</div><div class="sub">Labour, gig work, daily cash income</div></div>
+        <div class="chk">✓</div>
+      </div>
+      <div class="opt" id="io-weekly" onclick="selInc('weekly')">
+        <div class="ico">📅</div>
+        <div class="info"><div class="ttl">Weekly income</div><div class="sub">Weekly payout or freelance projects</div></div>
+        <div class="chk">✓</div>
+      </div>
+      <div class="opt on" id="io-monthly" onclick="selInc('monthly')">
+        <div class="ico">🏢</div>
+        <div class="info"><div class="ttl">Monthly salary</div><div class="sub">Salaried job or regular monthly income</div></div>
+        <div class="chk">✓</div>
+      </div>
+    </div>
+    <button class="btn g" style="margin-top:24px;" onclick="go('sc-ob2')">Next →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ONBOARDING 2 — SAVINGS AMOUNT
+═══════════════════════════════════════ -->
+<div id="sc-ob2" class="sc">
+  <div class="hdr"><div class="hdr-back" onclick="go('sc-ob1')">←</div><div style="font-weight:700;">Your Comfort</div><div class="hdr-step">2 / 3</div></div>
+  <div class="dots"><div class="dot done"></div><div class="dot on"></div><div class="dot"></div></div>
+  <div class="wraps fu">
+    <div style="margin-bottom:24px;">
+      <h2>How much can you save<br>comfortably?</h2>
+      <p class="muted">Per day — without feeling it. You can always change this later.</p>
+    </div>
+    <div style="background:var(--gl);border-radius:20px;padding:24px;text-align:center;margin-bottom:20px;">
+      <div style="font-size:13px;color:var(--mid);margin-bottom:4px;">I can comfortably save</div>
+      <div style="font-size:52px;font-weight:900;color:var(--gd);" id="ob2-num">₹50</div>
+      <div style="font-size:13px;color:var(--mid);">per day</div>
+    </div>
+    <div style="margin-bottom:18px;">
+      <input type="range" id="ob2-sl" min="10" max="500" value="50" step="10" oninput="updOb2()" />
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--mid);margin-top:6px;"><span>₹10/day</span><span>₹500/day</span></div>
+    </div>
+    <div style="margin-bottom:20px;">
+      <div class="lbl">Quick pick</div>
+      <div class="chips">
+        <div class="chip" onclick="setOb2(20)">₹20</div>
+        <div class="chip on" id="ob2-c50" onclick="setOb2(50)">₹50</div>
+        <div class="chip" onclick="setOb2(100)">₹100</div>
+        <div class="chip" onclick="setOb2(200)">₹200</div>
+        <div class="chip" onclick="setOb2(300)">₹300</div>
+      </div>
+    </div>
+    <div style="background:var(--yl);border:1.5px solid var(--y);border-radius:14px;padding:14px;margin-bottom:24px;">
+      <div style="font-size:13px;font-weight:700;color:#7D6608;margin-bottom:4px;">💡 Did you know?</div>
+      <div style="font-size:12px;color:#92400E;line-height:1.6;" id="ob2-tip">Even ₹20 a day creates a strong future. ₹50/day = <strong>₹18,250</strong> in just one year!</div>
+    </div>
+    <button class="btn g" onclick="go('sc-ob3')">Next →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ONBOARDING 3 — GOAL SELECTION
+═══════════════════════════════════════ -->
+<div id="sc-ob3" class="sc">
+  <div class="hdr"><div class="hdr-back" onclick="go('sc-ob2')">←</div><div style="font-weight:700;">Your Goal</div><div class="hdr-step">3 / 3</div></div>
+  <div class="dots"><div class="dot done"></div><div class="dot done"></div><div class="dot on"></div></div>
+  <div class="wraps fu">
+    <div style="margin-bottom:22px;">
+      <h2>What are you saving for?</h2>
+      <p class="muted">Pick your main goal. You can add more later.</p>
+    </div>
+    <div class="gtiles">
+      <div class="gtile on" data-g="Emergency Fund" data-t="25000" onclick="selGoal(this)"><div class="gi">🛡️</div><div class="gl">Emergency Fund</div></div>
+      <div class="gtile" data-g="Family Support" data-t="50000" onclick="selGoal(this)"><div class="gi">👨‍👩‍👧</div><div class="gl">Family Support</div></div>
+      <div class="gtile" data-g="Bike" data-t="80000" onclick="selGoal(this)"><div class="gi">🏍️</div><div class="gl">Bike</div></div>
+      <div class="gtile" data-g="House" data-t="500000" onclick="selGoal(this)"><div class="gi">🏠</div><div class="gl">House / Rent</div></div>
+      <div class="gtile" data-g="Travel" data-t="30000" onclick="selGoal(this)"><div class="gi">✈️</div><div class="gl">Travel</div></div>
+      <div class="gtile" data-g="Just Saving" data-t="10000" onclick="selGoal(this)"><div class="gi">🐷</div><div class="gl">Just Saving</div></div>
+    </div>
+    <button class="btn g" style="margin-top:24px;" onclick="mkPlan()">Show my plan →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PLAN CREATION
+═══════════════════════════════════════ -->
+<div id="sc-plan" class="sc">
+  <div class="hdr"><div class="hdr-back" onclick="go('sc-ob3')">←</div><div style="font-weight:700;">Your Plan</div><div></div></div>
+  <div class="wrap fu">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:48px;margin-bottom:10px;">🎯</div>
+      <h2>Your personalised plan<br>is ready!</h2>
+      <p class="muted">Based on your goal and comfort level</p>
+    </div>
+
+    <!-- Plan card -->
+    <div class="card green" style="margin-bottom:16px;">
+      <div style="font-size:11px;opacity:.75;font-weight:700;letter-spacing:.06em;margin-bottom:14px;">YOUR SAVINGS PLAN</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div><div style="font-size:11px;opacity:.7;">Goal</div><div style="font-size:15px;font-weight:800;" id="pl-goal">Emergency Fund</div></div>
+        <div><div style="font-size:11px;opacity:.7;">Target amount</div><div style="font-size:15px;font-weight:800;" id="pl-tgt">₹25,000</div></div>
+        <div><div style="font-size:11px;opacity:.7;">Daily saving</div><div style="font-size:34px;font-weight:900;line-height:1;" id="pl-daily">₹70</div></div>
+        <div><div style="font-size:11px;opacity:.7;">Completion</div><div style="font-size:15px;font-weight:800;" id="pl-months">12 months</div></div>
+      </div>
+    </div>
+
+    <!-- Projection chart -->
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px;">📊 Your savings projection</div>
+      <p class="muted" style="font-size:12px;margin-bottom:2px;">Watch your savings grow month by month</p>
+      <div class="ch-wrap"><canvas id="plan-ch"></canvas></div>
+    </div>
+
+    <!-- Behavioural nudge -->
+    <div style="background:var(--yl);border:1.5px solid var(--y);border-radius:16px;padding:16px;margin-bottom:20px;text-align:center;">
+      <div style="font-size:13px;font-weight:700;color:#7D6608;">✨ That's just the price of a chai + bus fare a day.</div>
+      <div style="font-size:12px;color:#92400E;margin-top:4px;">Small daily habits create big life changes.</div>
+    </div>
+
+    <button class="btn g" onclick="go('sc-payment')" style="font-size:16px;padding:18px;border-radius:16px;font-weight:900;">Start My Plan 🚀</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAYMENT SETUP
+═══════════════════════════════════════ -->
+<div id="sc-payment" class="sc">
+  <div class="hdr"><div class="hdr-back" onclick="go('sc-plan')">←</div><div style="font-weight:700;">Auto Save Setup</div><div></div></div>
+  <div class="wrap fu">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:48px;margin-bottom:10px;">⚡</div>
+      <h2>Set up automatic savings</h2>
+      <p class="muted">Save without thinking about it — every day, automatically.</p>
+    </div>
+
+    <!-- Explanation box -->
+    <div style="background:var(--gl);border-radius:16px;padding:18px;margin-bottom:18px;display:flex;align-items:center;gap:14px;">
+      <div style="font-size:38px;">🔄</div>
+      <div>
+        <div style="font-size:15px;font-weight:700;" id="pay-lbl">₹70 will automatically move to your savings daily.</div>
+        <div style="font-size:12px;color:var(--mid);margin-top:4px;">Only from your authorised account. Zero surprises.</div>
+      </div>
+    </div>
+
+    <!-- Payment options -->
+    <div style="margin-bottom:16px;">
+      <div class="lbl">Choose method</div>
+      <div class="opt on" id="py-upi" onclick="selPay('upi')">
+        <div class="ico">📲</div>
+        <div class="info"><div class="ttl">UPI Autopay</div><div class="sub">Set once, auto-deducted daily. Most popular.</div></div>
+        <div class="chk">✓</div>
+      </div>
+      <div class="opt" id="py-debit" onclick="selPay('debit')">
+        <div class="ico">💳</div>
+        <div class="info"><div class="ttl">Debit Mandate</div><div class="sub">Bank account auto-debit via NACH.</div></div>
+        <div class="chk">✓</div>
+      </div>
+    </div>
+
+    <!-- Calendar preview -->
+    <div class="card" style="margin-bottom:16px;">
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px;">📅 Auto-save schedule</div>
+      <p class="muted" style="font-size:12px;margin-bottom:14px;" id="cal-lbl">₹70 saved automatically — every day this month</p>
+      <div class="cal" id="cal-view"></div>
+      <div style="display:flex;gap:14px;margin-top:12px;font-size:11px;">
+        <span><span style="display:inline-block;width:12px;height:12px;background:var(--g);border-radius:3px;vertical-align:middle;margin-right:4px;"></span>Saved</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:var(--y);border-radius:3px;vertical-align:middle;margin-right:4px;"></span>Today</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:var(--bdr);border-radius:3px;vertical-align:middle;margin-right:4px;"></span>Upcoming</span>
+      </div>
+    </div>
+
+    <!-- Trust tags -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+      <div class="tag g">🔒 Bank-safe</div>
+      <div class="tag g">🇮🇳 RBI Regulated</div>
+      <div class="tag g">❌ No lock-in</div>
+    </div>
+
+    <button class="btn g" onclick="activate()" style="font-size:16px;padding:18px;border-radius:16px;font-weight:900;">⚡ Activate Auto Save</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     DASHBOARD
+═══════════════════════════════════════ -->
+<div id="sc-dash" class="sc">
+  <!-- Green header bg -->
+  <div style="background:linear-gradient(135deg,var(--gd),var(--g));padding:20px 20px 64px;color:#fff;">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div style="font-size:12px;opacity:.8;" id="d-date">Friday, 6 March</div>
+        <div style="font-size:18px;font-weight:800;" id="d-hi">Hello, Saver! 👋</div>
+      </div>
+      <div style="cursor:pointer;position:relative;" onclick="openSheet('sh-insights')">
+        <div style="font-size:30px;">🔔</div>
+        <div style="position:absolute;top:-1px;right:-1px;width:10px;height:10px;background:var(--y);border-radius:50%;border:2px solid var(--gd);"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wraps" style="margin-top:-48px;padding-bottom:96px;">
+
+    <!-- Progress Ring -->
+    <div class="card" style="border-radius:24px;padding:24px;margin-bottom:14px;">
+      <div style="text-align:center;font-size:12px;font-weight:700;color:var(--mid);margin-bottom:8px;" id="d-goal-lbl">🛡️ Emergency Fund</div>
+      <div class="ring-wrap" style="margin-bottom:18px;">
+        <svg class="ring-svg" width="190" height="190" viewBox="0 0 190 190">
+          <circle cx="95" cy="95" r="76" fill="none" stroke="#D5F5E3" stroke-width="15"/>
+          <circle id="prog-ring" cx="95" cy="95" r="76" fill="none" stroke="var(--g)" stroke-width="15" stroke-linecap="round"
+            stroke-dasharray="477.5" stroke-dashoffset="477.5" style="transition:stroke-dashoffset 1.3s ease;"/>
+        </svg>
+        <div class="ring-inner">
+          <div class="ring-pct" id="d-pct">0%</div>
+          <div class="ring-lbl">COMPLETE</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:32px;text-align:center;">
+        <div><div style="font-size:18px;font-weight:900;color:var(--gd);" id="d-saved">₹3,200</div><div style="font-size:11px;color:var(--mid);">Saved</div></div>
+        <div style="width:1px;background:var(--bdr);"></div>
+        <div><div style="font-size:18px;font-weight:900;" id="d-tgt">₹25,000</div><div style="font-size:11px;color:var(--mid);">Goal</div></div>
+        <div style="width:1px;background:var(--bdr);"></div>
+        <div><div style="font-size:18px;font-weight:900;color:var(--mid);" id="d-rem">₹21,800</div><div style="font-size:11px;color:var(--mid);">To go</div></div>
+      </div>
+    </div>
+
+    <!-- Streak -->
+    <div class="streak">
+      <div style="font-size:38px;">🔥</div>
+      <div style="flex:1;">
+        <div style="font-size:22px;font-weight:900;" id="d-streak">18 day streak!</div>
+        <div style="font-size:12px;opacity:.85;">Save today to keep the chain alive 💪</div>
+      </div>
+      <div style="background:rgba(255,255,255,.25);border-radius:12px;padding:8px 12px;text-align:center;min-width:60px;">
+        <div style="font-size:16px;font-weight:900;">+₹<span id="d-bonus">126</span></div>
+        <div style="font-size:10px;opacity:.9;">bonus</div>
+      </div>
+    </div>
+
+    <!-- Today's Save -->
+    <div class="card" id="d-today-card" style="border:2px solid var(--g);border-radius:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--mid);letter-spacing:.05em;">TODAY'S SAVING</div>
+          <div style="font-size:36px;font-weight:900;margin:4px 0;" id="d-tday">₹70</div>
+          <div style="font-size:12px;color:var(--mid);" id="d-tday-status">Tap to mark as saved</div>
+        </div>
+        <button class="btn g pulse" id="d-save-btn" onclick="doSave()" style="width:auto;min-width:90px;padding:14px 16px;border-radius:16px;font-size:14px;text-align:center;line-height:1.4;">
+          Save<br>Today 💰
+        </button>
+      </div>
+    </div>
+
+    <!-- Future Projection -->
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px;">🔭 If you keep saving...</div>
+      <table class="ptbl">
+        <tr class="pr1"><td>6 months</td><td id="d-6m">₹12,600</td></tr>
+        <tr class="pr2"><td>12 months</td><td id="d-12m">₹25,000 🎯</td></tr>
+        <tr class="pr3"><td>2 years</td><td id="d-2y">₹25,000 ✅</td></tr>
+      </table>
+    </div>
+
+    <!-- Milestones -->
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px;">🏆 Milestones</div>
+      <div class="mrow" id="d-milestones"></div>
+    </div>
+
+    <!-- Badges -->
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px;">🎖️ Your badges</div>
+      <div class="bdg-wrap">
+        <div class="bdg on">🌱 First Save</div>
+        <div class="bdg on">🔥 7-Day Streak</div>
+        <div class="bdg on" id="bdg-streak">🔥🔥 18-Day!</div>
+        <div class="bdg off" id="bdg-30">⭐ 30-Day Streak</div>
+        <div class="bdg off" id="bdg-10k">💎 ₹10k Club</div>
+        <div class="bdg off" id="bdg-goal">👑 Goal Done!</div>
+      </div>
+    </div>
+
+    <!-- Emergency Withdraw — subtle -->
+    <div style="text-align:center;padding:8px 0 4px;">
+      <button style="background:none;border:none;font-size:12px;color:var(--mid);cursor:pointer;text-decoration:underline;" onclick="openSheet('sh-withdraw')">
+        Need money urgently? See withdrawal options
+      </button>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bnav">
+    <div class="ni on"><div class="nico">🏠</div><div>Home</div></div>
+    <div class="ni" onclick="doSave()"><div class="nico">💰</div><div>Save</div></div>
+    <div class="ni" onclick="showTracker()"><div class="nico">📊</div><div>Track</div></div>
+    <div class="ni" onclick="openSheet('sh-insights')"><div class="nico">📈</div><div>Insights</div></div>
+    <div class="ni" onclick="openSheet('sh-pause')"><div class="nico">⚙️</div><div>More</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     GOAL TRACKER
+═══════════════════════════════════════ -->
+<div id="sc-tracker" class="sc">
+  <div class="hdr"><div class="hdr-back" onclick="go('sc-dash')">←</div><div style="font-weight:700;">Goal Tracker</div><div></div></div>
+  <div class="wraps">
+    <div class="card green" style="text-align:center;margin-bottom:18px;">
+      <div style="font-size:11px;opacity:.75;font-weight:700;letter-spacing:.05em;">TRACKING</div>
+      <div style="font-size:20px;font-weight:900;margin:6px 0;" id="tr-gname">Emergency Fund</div>
+      <div style="font-size:13px;opacity:.8;">Target: <span id="tr-tgt">₹25,000</span></div>
+      <div style="margin-top:16px;background:rgba(255,255,255,.2);border-radius:99px;height:10px;overflow:hidden;">
+        <div id="tr-bar" style="height:100%;background:var(--y);border-radius:99px;width:0%;transition:width 1s;"></div>
+      </div>
+      <div style="font-size:12px;margin-top:8px;opacity:.9;"><span id="tr-saved">₹3,200</span> of <span id="tr-tgt2">₹25,000</span> saved</div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;margin-bottom:16px;">📍 Your journey</div>
+      <div class="mrow" id="tr-milestones"></div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px;">📅 This week's savings</div>
+      <p class="muted" style="font-size:12px;margin-bottom:2px;">Daily saving activity</p>
+      <div class="ch-wrap"><canvas id="wk-ch"></canvas></div>
+    </div>
+
+    <!-- Education cards -->
+    <div class="card yel">
+      <div style="font-size:14px;font-weight:700;margin-bottom:8px;">📚 Why save daily?</div>
+      <p style="font-size:13px;color:var(--ink);line-height:1.7;">Daily savings builds a habit before it feels like a sacrifice. Your brain registers it as normal, not painful. That's the secret to long-term wealth.</p>
+    </div>
+    <div class="card" style="background:var(--gl);border-color:var(--gm);">
+      <div style="font-size:14px;font-weight:700;margin-bottom:8px;">📈 How ₹50 grows over time</div>
+      <p style="font-size:13px;color:var(--ink);line-height:1.7;">₹50/day × 365 days = <strong style="color:var(--gd);">₹18,250 in 1 year</strong><br>₹50/day × 3 years = <strong style="color:var(--gd);">₹54,750</strong><br>Imagine what you could do with that!</p>
+    </div>
+
+    <button class="btn out" onclick="go('sc-dash')">← Back to Dashboard</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SAVE ANIMATION OVERLAY
+═══════════════════════════════════════ -->
+<div class="overlay" id="ov-save">
+  <div class="save-card">
+    <div class="coin-stage" id="cstage">
+      <span style="font-size:80px;">🫙</span>
+    </div>
+    <div style="font-size:28px;font-weight:900;color:var(--gd);margin-bottom:8px;">₹<span id="sv-amt">70</span> saved!</div>
+    <div style="font-size:15px;color:var(--mid);margin-bottom:6px;">Great job! Your future just grew. 🌱</div>
+    <div style="font-size:14px;font-weight:700;color:var(--gd);margin-bottom:22px;" id="sv-streak">🔥 19 day streak!</div>
+    <button class="btn g" onclick="closeSave()">Awesome, continue →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     BOTTOM SHEET — INSIGHTS
+═══════════════════════════════════════ -->
+<div class="bsheet" id="sh-insights" onclick="closeSheet('sh-insights')">
+  <div class="bscnt" onclick="e.stopPropagation ? e.stopPropagation() : null">
+    <div class="handle"></div>
+    <h3 style="margin-bottom:4px;">📊 This Week's Report</h3>
+    <p class="muted" style="font-size:12px;margin-bottom:20px;">Mar 1 – 6, 2026</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;">
+      <div style="text-align:center;background:var(--gl);border-radius:14px;padding:14px;">
+        <div style="font-size:18px;font-weight:900;color:var(--gd);" id="ins-wk">₹420</div>
+        <div style="font-size:11px;color:var(--mid);">This week</div>
+      </div>
+      <div style="text-align:center;background:var(--yl);border-radius:14px;padding:14px;">
+        <div style="font-size:18px;font-weight:900;color:#7D6608;" id="ins-str">18</div>
+        <div style="font-size:11px;color:var(--mid);">Day streak</div>
+      </div>
+      <div style="text-align:center;background:var(--gl);border-radius:14px;padding:14px;">
+        <div style="font-size:18px;font-weight:900;color:var(--gd);" id="ins-fund">₹3,200</div>
+        <div style="font-size:11px;color:var(--mid);">Future fund</div>
+      </div>
+    </div>
+    <div style="background:var(--gl);border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:700;margin-bottom:6px;">💡 Morning nudge</div>
+      <div style="font-size:13px;color:var(--mid);line-height:1.6;">"Your ₹70 today builds your future. Save before the day slips away."</div>
+    </div>
+    <button class="btn g" onclick="closeSheet('sh-insights')">Got it! 💪</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     BOTTOM SHEET — WITHDRAW WARNING
+═══════════════════════════════════════ -->
+<div class="bsheet" id="sh-withdraw" onclick="closeSheet('sh-withdraw')">
+  <div class="bscnt" onclick="void 0">
+    <div class="handle"></div>
+    <div style="text-align:center;font-size:44px;margin-bottom:12px;">⚠️</div>
+    <h3 style="text-align:center;margin-bottom:8px;">Breaking your savings plan</h3>
+    <p class="muted c" style="font-size:13px;margin-bottom:16px;">Withdrawing now will affect your goal timeline and reset your streak.</p>
+    <div style="background:#FFF5F5;border:1.5px solid #FCA5A5;border-radius:14px;padding:16px;margin-bottom:20px;font-size:13px;color:#991B1B;line-height:1.6;">
+      "You are breaking your future savings plan. This will set back your <strong id="wd-goal">Emergency Fund</strong> goal by weeks."
+    </div>
+    <div class="opt" onclick="selWD('partial')"><div class="ico">💸</div><div class="info"><div class="ttl">Withdraw partial</div><div class="sub">Take only what you absolutely need</div></div></div>
+    <div class="opt" onclick="selWD('pause')"><div class="ico">⏸️</div><div class="info"><div class="ttl">Pause plan instead</div><div class="sub">Take a break — keep your savings safe</div></div></div>
+    <button class="btn g" style="margin-top:10px;" onclick="closeSheet('sh-withdraw')">Continue saving 💪</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     BOTTOM SHEET — PAUSE
+═══════════════════════════════════════ -->
+<div class="bsheet" id="sh-pause" onclick="closeSheet('sh-pause')">
+  <div class="bscnt" onclick="void 0">
+    <div class="handle"></div>
+    <h3 style="margin-bottom:4px;">⏸️ Pause savings</h3>
+    <p class="muted" style="font-size:13px;margin-bottom:20px;">Going through a tough time? Pause temporarily — your savings stay safe and secure.</p>
+    <div class="gtiles" style="margin-bottom:20px;">
+      <div class="gtile" onclick="doPause(3)"><div class="gi">3️⃣</div><div class="gl">3 days</div></div>
+      <div class="gtile" onclick="doPause(7)"><div class="gi">7️⃣</div><div class="gl">7 days</div></div>
+      <div class="gtile" onclick="doPause(30)"><div class="gi">📅</div><div class="gl">1 month</div></div>
+    </div>
+    <button class="btn out" onclick="closeSheet('sh-pause')">Don't pause — keep saving 💪</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+</div><!-- /phone -->
+
+    </div><!-- /iphone-screen-wrap -->
+  </div><!-- /iphone-frame -->
+</div><!-- /iphone-outer -->
+
+<script>
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+const S = {
+  incFreq:  'monthly',
+  daily:    50,
+  goal:     'Emergency Fund',
+  goalTgt:  25000,
+  saved:    3200,
+  streak:   18,
+  todayDone: false,
+  payMethod: 'upi',
+  charts:   {},
+};
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
+function go(id) {
+  document.querySelectorAll('.sc').forEach(s => {
+    s.classList.remove('on','fu');
+  });
+  const el = document.getElementById(id);
+  el.classList.add('on');
+  void el.offsetWidth;
+  el.classList.add('fu');
+  window.scrollTo(0,0);
+
+  // Screen-specific init
+  if (id === 'sc-payment') buildCal();
+  if (id === 'sc-dash')    buildDash();
+}
+
+/* ═══════════════════════════════════════
+   LANDING CALCULATOR
+═══════════════════════════════════════ */
+function landCalc() {
+  const v = +document.getElementById('lc-slider').value;
+  document.getElementById('lc-lbl').textContent = '₹'+v+'/day';
+  document.getElementById('lc-1y').textContent  = '₹'+f(v*365);
+  document.getElementById('lc-3y').textContent  = '₹'+f(v*365*3);
+  document.getElementById('lc-5y').textContent  = '₹'+f(v*365*5);
+}
+
+/* ═══════════════════════════════════════
+   LOGIN / OTP
+═══════════════════════════════════════ */
+function toOTP() {
+  const m = document.getElementById('mob').value;
+  if (m.length < 10) { toast('⚠️ Enter a valid 10-digit number'); return; }
+  S.mobile = m;
+  document.getElementById('otp-mob').textContent = m;
+  go('sc-otp');
+  setTimeout(() => document.getElementById('o0').focus(), 400);
+}
+
+function oNext(i) {
+  if (document.getElementById('o'+i).value.length === 1 && i < 5)
+    document.getElementById('o'+(i+1)).focus();
+  if (i === 5) verOTP();
+}
+
+function verOTP() {
+  const otp = [0,1,2,3,4,5].map(i => document.getElementById('o'+i).value).join('');
+  if (otp === '123456') { go('sc-ob1'); }
+  else { toast('❌ Wrong OTP. Hint: 1 2 3 4 5 6'); }
+}
+
+/* ═══════════════════════════════════════
+   ONBOARDING
+═══════════════════════════════════════ */
+function selInc(f) {
+  S.incFreq = f;
+  ['daily','weekly','monthly'].forEach(x =>
+    document.getElementById('io-'+x).classList.toggle('on', x===f));
+}
+
+function updOb2() {
+  const v = +document.getElementById('ob2-sl').value;
+  S.daily = v;
+  document.getElementById('ob2-num').textContent = '₹'+v;
+  document.getElementById('ob2-tip').innerHTML =
+    `Even ₹${v} a day creates a strong future. ₹${v}/day = <strong>₹${f(v*365)}</strong> in just one year!`;
+  document.querySelectorAll('#sc-ob2 .chip').forEach(c => c.classList.remove('on'));
+}
+
+function setOb2(v) {
+  S.daily = v;
+  document.getElementById('ob2-sl').value = v;
+  updOb2();
+  event.target.classList.add('on');
+}
+
+function selGoal(el) {
+  document.querySelectorAll('.gtile').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  S.goal    = el.dataset.g;
+  S.goalTgt = +el.dataset.t;
+}
+
+/* ═══════════════════════════════════════
+   PLAN CREATION
+═══════════════════════════════════════ */
+function mkPlan() {
+  const months = Math.ceil(S.goalTgt / (S.daily * 30));
+  document.getElementById('pl-goal').textContent   = S.goal;
+  document.getElementById('pl-tgt').textContent    = '₹'+f(S.goalTgt);
+  document.getElementById('pl-daily').textContent  = '₹'+S.daily;
+  document.getElementById('pl-months').textContent = months + (months===1?' month':' months');
+  go('sc-plan');
+  buildPlanChart(months);
+}
+
+function buildPlanChart(months) {
+  const ctx = document.getElementById('plan-ch').getContext('2d');
+  const pm  = S.daily * 30;
+  const len = Math.min(months+2, 24);
+  const labels=[], data=[], tgt=[];
+  for (let m=0; m<=len; m++) {
+    labels.push(m===0?'Now':m+'m');
+    data.push(Math.min(m*pm, S.goalTgt));
+    tgt.push(S.goalTgt);
+  }
+  if (S.charts.plan) S.charts.plan.destroy();
+  S.charts.plan = new Chart(ctx, {
+    type:'line',
+    data:{ labels, datasets:[
+      { data, fill:true, tension:.4, pointRadius:2, borderColor:'#2ECC71', backgroundColor:'rgba(46,204,113,.15)' },
+      { data:tgt, borderDash:[6,4], pointRadius:0, borderWidth:2, borderColor:'#F9CA24' }
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        y:{ ticks:{callback:v=>'₹'+f(v),font:{size:10,family:'Poppins'}}, grid:{color:'#F3FAF7'} },
+        x:{ ticks:{maxTicksLimit:7,font:{size:10,family:'Poppins'}}, grid:{display:false} }
+      }
+    }
+  });
+}
+
+/* ═══════════════════════════════════════
+   PAYMENT
+═══════════════════════════════════════ */
+function selPay(m) {
+  S.payMethod = m;
+  ['upi','debit'].forEach(x => document.getElementById('py-'+x).classList.toggle('on',x===m));
+}
+
+function buildCal() {
+  document.getElementById('pay-lbl').textContent = `₹${S.daily} will automatically move to your savings daily.`;
+  document.getElementById('cal-lbl').textContent = `₹${S.daily} saved automatically — every day this month`;
+  const cal = document.getElementById('cal-view');
+  cal.innerHTML = '';
+  const today = new Date().getDate();
+  for (let d=1; d<=28; d++) {
+    const div = document.createElement('div');
+    div.className = 'cday ' + (d<today?'s':d===today?'t':'f');
+    div.textContent = d;
+    cal.appendChild(div);
+  }
+}
+
+function activate() {
+  toast('🎉 Auto Save activated! You\'re on your way!');
+  setTimeout(() => go('sc-dash'), 900);
+}
+
+/* ═══════════════════════════════════════
+   DASHBOARD
+═══════════════════════════════════════ */
+function buildDash() {
+  const pct = Math.min(100, Math.round((S.saved / S.goalTgt)*100));
+  const pm  = S.daily * 30;
+
+  document.getElementById('d-date').textContent =
+    new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('d-goal-lbl').textContent = gEmoji(S.goal)+' '+S.goal;
+  document.getElementById('d-pct').textContent   = pct+'%';
+  document.getElementById('d-saved').textContent  = '₹'+f(S.saved);
+  document.getElementById('d-tgt').textContent    = '₹'+f(S.goalTgt);
+  document.getElementById('d-rem').textContent    = '₹'+f(Math.max(0,S.goalTgt-S.saved));
+  document.getElementById('d-streak').textContent = S.streak+' day streak!';
+  document.getElementById('d-bonus').textContent  = S.streak*7;
+  document.getElementById('d-tday').textContent   = '₹'+S.daily;
+  document.getElementById('sv-amt').textContent   = S.daily;
+
+  // Ring animation
+  const circ = 2*Math.PI*76; // r=76
+  setTimeout(() => {
+    document.getElementById('prog-ring').style.strokeDashoffset = circ*(1-pct/100);
+  }, 350);
+
+  // Projections
+  const m6  = Math.min(S.saved+pm*6,  S.goalTgt);
+  const m12 = Math.min(S.saved+pm*12, S.goalTgt);
+  const m24 = Math.min(S.saved+pm*24, S.goalTgt);
+  document.getElementById('d-6m').textContent  = '₹'+f(m6)  +(m6>=S.goalTgt?' 🎯':'');
+  document.getElementById('d-12m').textContent = '₹'+f(m12) +(m12>=S.goalTgt?' 🎯':'');
+  document.getElementById('d-2y').textContent  = '₹'+f(m24) +(m24>=S.goalTgt?' ✅':'');
+
+  // Today button state
+  const btn = document.getElementById('d-save-btn');
+  if (S.todayDone) {
+    btn.innerHTML = '✅ Saved!';
+    btn.style.background = var_('--gd');
+    btn.disabled = true;
+    btn.classList.remove('pulse');
+    document.getElementById('d-tday-status').textContent = 'Saved automatically today ✓';
+    document.getElementById('d-today-card').style.borderColor = var_('--gd');
+  }
+
+  // Milestones
+  buildMs('d-milestones');
+
+  // Insights sheet
+  document.getElementById('ins-wk').textContent  = '₹'+f(S.daily*6);
+  document.getElementById('ins-str').textContent  = S.streak;
+  document.getElementById('ins-fund').textContent = '₹'+f(S.saved);
+  document.getElementById('wd-goal').textContent  = S.goal;
+
+  // Badges
+  if (S.saved >= S.goalTgt*0.4) document.getElementById('bdg-10k').className='bdg on';
+  if (S.saved >= S.goalTgt)     document.getElementById('bdg-goal').className='bdg on';
+  if (S.streak >= 30)           document.getElementById('bdg-30').className='bdg on';
+}
+
+function buildMs(containerId) {
+  const t = S.goalTgt;
+  const ms = [
+    { amt: Math.round(t*.2), lbl:'First milestone 🌱', ico:'🌱' },
+    { amt: Math.round(t*.5), lbl:'Halfway there! 💪',  ico:'⭐' },
+    { amt: t,                lbl:'Goal complete! 🎉',  ico:'🏆' },
+  ];
+  let curSet = false;
+  document.getElementById(containerId).innerHTML = ms.map((m,i) => {
+    const done = S.saved >= m.amt;
+    const cur  = !done && !curSet && (i===0 || S.saved >= ms[i-1].amt);
+    if (cur) curSet = true;
+    const cls  = done?'done':cur?'cur':'';
+    const ico  = done?'✅':m.ico;
+    const doneBadge = done ? '<span class="tag g" style="font-size:10px;">Done!</span>' : '';
+    const remain = done ? '' : `<div style="margin-left:auto;font-size:12px;color:var(--mid);">₹${f(Math.max(0,m.amt-S.saved))} left</div>`;
+    return `<div class="mitem ${cls}">
+      <div class="mdot">${ico}</div>
+      <div class="m-info">
+        <div class="mamt">₹${f(m.amt)} ${doneBadge}</div>
+        <div class="mlbl">${m.lbl}</div>
+      </div>${remain}
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════
+   SAVE TODAY FLOW
+═══════════════════════════════════════ */
+function doSave() {
+  if (S.todayDone) { toast('✅ Already saved today! See you tomorrow.'); return; }
+  S.saved    += S.daily;
+  S.streak++;
+  S.todayDone = true;
+
+  // Coin animation
+  document.getElementById('sv-amt').textContent    = S.daily;
+  document.getElementById('sv-streak').textContent = '🔥 '+S.streak+' day streak!';
+  document.getElementById('ov-save').classList.add('on');
+
+  const stage = document.getElementById('cstage');
+  for (let i=0; i<6; i++) {
+    setTimeout(() => {
+      const c = document.createElement('span');
+      c.className = 'cfall';
+      c.textContent = '🪙';
+      c.style.left  = (25+Math.random()*50)+'%';
+      c.style.animationDelay = (Math.random()*.3)+'s';
+      stage.appendChild(c);
+      setTimeout(() => c.remove(), 1300);
+    }, i*130);
+  }
+}
+
+function closeSave() {
+  document.getElementById('ov-save').classList.remove('on');
+  buildDash();
+}
+
+/* ═══════════════════════════════════════
+   TRACKER
+═══════════════════════════════════════ */
+function showTracker() {
+  go('sc-tracker');
+  document.getElementById('tr-gname').textContent  = S.goal;
+  document.getElementById('tr-tgt').textContent    = '₹'+f(S.goalTgt);
+  document.getElementById('tr-saved').textContent  = '₹'+f(S.saved);
+  document.getElementById('tr-tgt2').textContent   = '₹'+f(S.goalTgt);
+  const pct = Math.min(100, Math.round((S.saved/S.goalTgt)*100));
+  setTimeout(() => document.getElementById('tr-bar').style.width = pct+'%', 300);
+  buildMs('tr-milestones');
+  buildWeekChart();
+}
+
+function buildWeekChart() {
+  const ctx = document.getElementById('wk-ch').getContext('2d');
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const data = days.map((_,i) => i<6 ? S.daily : 0);
+  if (S.charts.wk) S.charts.wk.destroy();
+  S.charts.wk = new Chart(ctx, {
+    type:'bar',
+    data:{ labels:days, datasets:[{
+      data,
+      borderRadius:8,
+      backgroundColor:days.map((_,i) => i<6?'#2ECC71':'#E5E7EB'),
+    }]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        y:{ ticks:{callback:v=>'₹'+v,font:{size:10,family:'Poppins'}}, grid:{color:'#F3FAF7'} },
+        x:{ grid:{display:false}, ticks:{font:{size:10,family:'Poppins'}} }
+      }
+    }
+  });
+}
+
+/* ═══════════════════════════════════════
+   SHEETS
+═══════════════════════════════════════ */
+function openSheet(id) {
+  document.getElementById(id).classList.add('on');
+}
+function closeSheet(id) {
+  document.getElementById(id).classList.remove('on');
+}
+
+// Stop sheet click-through
+document.querySelectorAll('.bscnt').forEach(el => {
+  el.addEventListener('click', e => e.stopPropagation());
+});
+
+function selWD(opt) {
+  closeSheet('sh-withdraw');
+  if (opt === 'pause') openSheet('sh-pause');
+  else toast('💸 Enter amount to withdraw in the next screen');
+}
+
+function doPause(days) {
+  toast(`✅ Savings paused for ${days} days. Stay strong!`);
+  closeSheet('sh-pause');
+}
+
+/* ═══════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════ */
+function f(n) { return Math.round(n).toLocaleString('en-IN'); }
+
+function var_(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function gEmoji(g) {
+  return {'Emergency Fund':'🛡️','Family Support':'👨‍👩‍👧','Bike':'🏍️','House':'🏠','Travel':'✈️','Just Saving':'🐷'}[g]||'🎯';
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.cssText = 'display:block;opacity:1;';
+  clearTimeout(window._toast);
+  window._toast = setTimeout(() => {
+    t.style.opacity = '0';
+    setTimeout(() => t.style.display='none', 350);
+  }, 2600);
+}
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+landCalc();
+buildDash();
+selInc('monthly');
+</script>
+</body>
+</html>
